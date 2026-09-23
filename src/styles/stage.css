@@ -10,9 +10,69 @@
   user-select: none;
 }
 
+.stage__atmos {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stage__atmos .swap__item {
+  position: absolute;
+  inset: 0;
+}
+
+.stage__atmos .sleeve {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40vmax;
+  height: 40vmax;
+  margin: -20vmax 0 0 -20vmax;
+  transform: translate3d(7%, -4%, 0) scale(3.4);
+  filter: blur(22px) saturate(1.4);
+  opacity: 0.34;
+}
+
+.stage__atmos::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 57% 46%, transparent 14%, rgba(10, 10, 11, 0.55) 52%, rgba(10, 10, 11, 0.92) 100%);
+}
+
+.stage__atmos .swap__item[data-phase='enter'] {
+  animation: vt-in 1.6s var(--ease-soft) both;
+}
+
+.stage__atmos .swap__item[data-phase='exit'] {
+  animation: vt-out 1.1s var(--ease-soft) both;
+}
+
+.stage__folio {
+  position: absolute;
+  left: calc(var(--gutter) - 0.05em);
+  bottom: calc(var(--dock-h) + 21vh);
+  z-index: 1;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: clamp(9rem, 44vh, 34rem);
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(236, 231, 223, 0.32);
+  pointer-events: none;
+}
+
+.stage__folio .swap {
+  display: grid;
+}
+
 .stage__rail {
   position: absolute;
   inset: 0;
+  z-index: 2;
   transform: translate3d(calc(var(--px, 0) * -18px), calc(var(--py, 0) * -12px), 0);
 }
 
@@ -38,9 +98,11 @@
 }
 
 .stage__sleeve {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   box-shadow: 0 50px 120px -40px rgba(0, 0, 0, 0.9);
   transition: transform 0.9s var(--ease-expo);
 }
@@ -48,6 +110,49 @@
 .stage__slide[data-focused='true'] .stage__sleeve {
   transform: perspective(1400px) rotateY(calc(var(--px, 0) * 7deg)) rotateX(calc(var(--py, 0) * -7deg)) scale(calc(1 + var(--bass, 0) * 0.018));
   transition-duration: 0.25s;
+}
+
+.stage__slide[data-focused='true'] .stage__sleeve::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(108deg, transparent 38%, rgba(255, 255, 255, 0.28) 50%, transparent 62%);
+  transform: translate3d(-130%, 0, 0);
+  animation: sheen 1.5s var(--ease-expo) 0.2s forwards;
+  pointer-events: none;
+}
+
+@keyframes sheen {
+  to {
+    transform: translate3d(130%, 0, 0);
+  }
+}
+
+.stage__slide[data-focused='true']::before {
+  content: '';
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 100%;
+  height: 22%;
+  margin-top: 4%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.72), transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.stage__reflection {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 2px);
+  width: 100%;
+  height: 100%;
+  transform: scaleY(-1);
+  opacity: 0.32;
+  mask-image: linear-gradient(to bottom, transparent 58%, rgba(0, 0, 0, 0.55) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 58%, rgba(0, 0, 0, 0.55) 100%);
+  filter: blur(1.5px);
+  pointer-events: none;
 }
 
 .stage__slide:not([data-focused='true']) .stage__sleeve:hover {
@@ -147,26 +252,48 @@
 
 .stage__play,
 .stage__open {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 11px 20px;
   border: 1px solid var(--rule-strong);
   border-radius: 999px;
+  overflow: hidden;
   transition:
-    background-color 0.4s var(--ease-soft),
     color 0.4s var(--ease-soft),
     border-color 0.4s var(--ease-soft),
     gap 0.6s var(--ease-expo);
+}
+
+.stage__play::before,
+.stage__open::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  transform: translate3d(0, 101%, 0);
+  transition: transform 0.55s var(--ease-expo);
+}
+
+.stage__play > *,
+.stage__open > * {
+  position: relative;
 }
 
 .stage__play:hover,
 .stage__open:hover,
 .stage__play:focus-visible,
 .stage__open:focus-visible {
-  background: var(--paper);
   border-color: var(--paper);
   color: var(--ink);
+}
+
+.stage__play:hover::before,
+.stage__open:hover::before,
+.stage__play:focus-visible::before,
+.stage__open:focus-visible::before {
+  transform: none;
 }
 
 .stage__open:hover {
@@ -367,8 +494,15 @@
     order: 3;
   }
 
-  .stage__arrow {
+  .stage__arrow,
+  .stage__folio,
+  .stage__reflection,
+  .stage__slide[data-focused='true']::before {
     display: none;
+  }
+
+  .stage__atmos .sleeve {
+    opacity: 0.28;
   }
 
   .stage__ticks {

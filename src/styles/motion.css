@@ -39,7 +39,7 @@
   animation-name: unit-out-back;
 }
 
-.swap__item[data-phase='enter'] :is(.stage__artist, .stage__record, .stage__count-now > span, .world__eyebrow, .world__byline, .dock__title, .dock__artist) {
+.swap__item[data-phase='enter'] :is(.stage__artist, .stage__record, .world__eyebrow, .world__byline, .dock__title, .dock__artist) {
   animation: rise-in 0.95s var(--ease-expo) both;
   animation-delay: var(--rise-delay, 160ms);
 }
@@ -48,8 +48,56 @@
   --rise-delay: 240ms;
 }
 
-.swap__item[data-phase='exit'] :is(.stage__artist, .stage__record, .stage__count-now > span, .world__eyebrow, .world__byline, .dock__title, .dock__artist) {
+.swap__item[data-phase='exit'] :is(.stage__artist, .stage__record, .world__eyebrow, .world__byline, .dock__title, .dock__artist) {
   animation: rise-out 0.4s var(--ease-soft) both;
+}
+
+.roll .swap__item > span {
+  display: block;
+}
+
+.roll .swap__item[data-phase='enter'] > span {
+  animation: roll-in 0.85s var(--ease-expo) both;
+}
+
+.roll .swap__item[data-phase='exit'] > span {
+  animation: roll-out 0.5s var(--ease-quint) both;
+}
+
+[data-direction='back'] .roll .swap__item[data-phase='enter'] > span {
+  animation-name: roll-in-back;
+}
+
+[data-direction='back'] .roll .swap__item[data-phase='exit'] > span {
+  animation-name: roll-out-back;
+}
+
+@keyframes roll-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 108%, 0);
+  }
+}
+
+@keyframes roll-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -108%, 0);
+  }
+}
+
+@keyframes roll-in-back {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -108%, 0);
+  }
+}
+
+@keyframes roll-out-back {
+  to {
+    opacity: 0;
+    transform: translate3d(0, 108%, 0);
+  }
 }
 
 @keyframes unit-in {

@@ -39,6 +39,44 @@
   animation: vt-out 0.8s var(--ease-soft) both;
 }
 
+.fx-atmos {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.fx-atmos .sleeve {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40vmax;
+  height: 40vmax;
+  margin: -20vmax 0 0 -20vmax;
+  transform: translate3d(14%, -2%, 0) scale(3.2);
+  filter: blur(22px) saturate(1.3);
+  opacity: 0.26;
+}
+
+.fx-atmos::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 64% 44%, transparent 12%, rgba(10, 10, 11, 0.5) 50%, rgba(10, 10, 11, 0.94) 100%);
+}
+
+.world__sleeve-wrap::before {
+  content: '';
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 100%;
+  height: 20%;
+  margin-top: 3%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7), transparent 70%);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
 .world__live {
   position: relative;
   z-index: 1;
