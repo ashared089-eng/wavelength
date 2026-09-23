@@ -1,0 +1,9 @@
+node_modules
+.tools
+.claude
+_legacy
+dist
+.vite
+*.log
+.DS_Store
+Thumbs.db
