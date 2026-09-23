@@ -1,0 +1,37 @@
+.sleeve {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ink-raised);
+}
+
+.sleeve__layer {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.sleeve__imprint {
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 3.4px;
+  opacity: 0.72;
+}
+
+.sleeve--live .sleeve__layer {
+  transition: transform 0.2s linear;
+  will-change: transform;
+}
+
+.sleeve--live .sleeve__layer--back {
+  transform: translate(calc(var(--px, 0) * -6px), calc(var(--py, 0) * -6px)) scale(calc(1 + var(--level, 0) * 0.015));
+}
+
+.sleeve--live .sleeve__layer--mid {
+  transform: translate(calc(var(--px, 0) * 10px), calc(var(--py, 0) * 10px)) scale(calc(1 + var(--bass, 0) * 0.028));
+}
+
+.sleeve--live .sleeve__layer--front {
+  transform: translate(calc(var(--px, 0) * 22px), calc(var(--py, 0) * 22px));
+}

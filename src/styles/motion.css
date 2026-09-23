@@ -1,0 +1,231 @@
+.split__word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.1em 0.05em 0.22em;
+  margin: -0.1em -0.05em -0.22em;
+}
+
+.split__unit {
+  display: inline-block;
+  will-change: transform;
+  animation: unit-in 1.1s var(--ease-expo) both;
+  animation-delay: calc(var(--i) * 26ms + var(--split-delay, 60ms));
+}
+
+[data-direction='back'] .split__unit {
+  animation-name: unit-in-back;
+}
+
+.swap {
+  display: grid;
+}
+
+.swap__item {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
+.swap__item[data-phase='exit'] {
+  pointer-events: none;
+}
+
+.swap__item[data-phase='exit'] .split__unit {
+  animation: unit-out 0.6s var(--ease-quint) both;
+  animation-delay: calc(var(--i) * 9ms);
+}
+
+[data-direction='back'] .swap__item[data-phase='exit'] .split__unit {
+  animation-name: unit-out-back;
+}
+
+.swap__item[data-phase='enter'] :is(.stage__artist, .stage__record, .stage__count-now > span, .world__eyebrow, .world__byline, .dock__title, .dock__artist) {
+  animation: rise-in 0.95s var(--ease-expo) both;
+  animation-delay: var(--rise-delay, 160ms);
+}
+
+.swap__item[data-phase='enter'] :is(.stage__record, .world__byline, .dock__artist) {
+  --rise-delay: 240ms;
+}
+
+.swap__item[data-phase='exit'] :is(.stage__artist, .stage__record, .stage__count-now > span, .world__eyebrow, .world__byline, .dock__title, .dock__artist) {
+  animation: rise-out 0.4s var(--ease-soft) both;
+}
+
+@keyframes unit-in {
+  from {
+    transform: translate3d(0, 114%, 0) rotate(5deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes unit-in-back {
+  from {
+    transform: translate3d(0, -114%, 0) rotate(-5deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes unit-out {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translate3d(0, -114%, 0) rotate(-4deg);
+  }
+}
+
+@keyframes unit-out-back {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translate3d(0, 114%, 0) rotate(4deg);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rise-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition:
+    opacity 1.1s var(--ease-soft) var(--reveal-delay, 0ms),
+    transform 1.3s var(--ease-expo) var(--reveal-delay, 0ms);
+}
+
+.reveal[data-inview='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.page-loader__line {
+  width: min(240px, 40vw);
+  height: 1px;
+  background: var(--paper);
+  transform-origin: left;
+  animation: loader 1.2s var(--ease-quint) infinite;
+}
+
+@keyframes loader {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  50.01% {
+    transform-origin: right;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+::view-transition-old(root) {
+  animation: vt-out 0.42s var(--ease-soft) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-in 0.8s var(--ease-soft) both;
+}
+
+::view-transition-group(sleeve) {
+  animation-duration: 1s;
+  animation-timing-function: var(--ease-expo);
+  z-index: 10;
+}
+
+::view-transition-old(sleeve),
+::view-transition-new(sleeve) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+::view-transition-old(nav),
+::view-transition-old(dock) {
+  display: none;
+}
+
+::view-transition-new(nav),
+::view-transition-new(dock) {
+  animation: none;
+}
+
+::view-transition-group(nav),
+::view-transition-group(dock) {
+  z-index: 20;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

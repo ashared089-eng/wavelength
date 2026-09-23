@@ -1,0 +1,132 @@
+.about {
+  display: grid;
+  gap: 8vh;
+  padding: calc(var(--nav-h) + 9vh) var(--gutter) calc(var(--dock-h) + 16vh);
+}
+
+.about__head {
+  display: grid;
+  gap: 2.4vh;
+}
+
+.about__title {
+  max-width: 14ch;
+  margin-left: -0.03em;
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 11.5vw, 12rem);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  --split-delay: 120ms;
+}
+
+.about__lede {
+  max-width: 30em;
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 3.1vw, 3.3rem);
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  color: var(--paper-2);
+}
+
+.about__lede em {
+  color: color-mix(in oklab, var(--tint) 45%, var(--paper));
+  transition: color 1.2s var(--ease-soft);
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8vh clamp(24px, 6vw, 120px);
+  padding-top: 6vh;
+  border-top: 1px solid var(--rule);
+}
+
+.about__block {
+  display: grid;
+  align-content: start;
+  gap: 22px;
+}
+
+.keys__row {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--rule);
+  font-size: var(--text-body);
+}
+
+.keys__row:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.keys dt {
+  font-size: var(--text-micro);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-3);
+}
+
+.keys kbd {
+  font-family: var(--font-sans);
+  font-size: inherit;
+  color: var(--paper);
+}
+
+.keys dd {
+  color: var(--paper-2);
+}
+
+.about__note {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.3;
+  color: var(--paper-2);
+}
+
+.about__cta {
+  padding-top: 4vh;
+}
+
+.about__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition:
+    gap 0.8s var(--ease-expo),
+    border-color 0.4s var(--ease-soft);
+}
+
+.about__link:hover {
+  gap: 40px;
+  border-color: var(--paper);
+  font-style: italic;
+}
+
+@media (max-width: 760px) {
+  .about {
+    gap: 6vh;
+    padding-top: calc(var(--nav-h) + 5vh);
+  }
+
+  .about__lede {
+    margin-left: 0;
+  }
+
+  .about__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .keys__row {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+  }
+}
