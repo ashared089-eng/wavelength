@@ -1,10 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { cx } from '../../utils/classNames.js';
 
-export default function Swap({ swapKey, exitMs = 700, as: Tag = 'div', className, children }) {
+export default function Swap({ swapKey, exitMs = 700, as: Tag = 'div', className, children, ...rest }) {
   const [leaving, setLeaving] = useState(null);
   const lastKey = useRef(swapKey);
   const lastNode = useRef(children);
+  const Item = Tag === 'span' ? 'span' : 'div';
 
   useLayoutEffect(() => {
     if (lastKey.current === swapKey) return;
@@ -23,15 +24,15 @@ export default function Swap({ swapKey, exitMs = 700, as: Tag = 'div', className
   }, [leaving, exitMs]);
 
   return (
-    <Tag className={cx('swap', className)}>
+    <Tag className={cx('swap', className)} {...rest}>
       {leaving && leaving.key !== swapKey ? (
-        <div key={leaving.key} className="swap__item" data-phase="exit" aria-hidden="true">
+        <Item key={leaving.key} className="swap__item" data-phase="exit" aria-hidden="true">
           {leaving.node}
-        </div>
+        </Item>
       ) : null}
-      <div key={swapKey} className="swap__item" data-phase="enter">
+      <Item key={swapKey} className="swap__item" data-phase="enter">
         {children}
-      </div>
+      </Item>
     </Tag>
   );
 }
