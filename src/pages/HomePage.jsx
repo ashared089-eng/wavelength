@@ -225,6 +225,16 @@ export default function HomePage() {
       onClickCapture={handleClickCapture}
       onDragStart={(event) => event.preventDefault()}
     >
+      <Swap swapKey={focused.id} exitMs={1100} className="stage__atmos" aria-hidden="true">
+        <TrackSleeve track={focused} imprint={false} />
+      </Swap>
+
+      <div className="stage__folio" aria-hidden="true">
+        <Swap swapKey={index} exitMs={700} as="span" className="roll">
+          <span>{pad(index + 1)}</span>
+        </Swap>
+      </div>
+
       <div ref={railRef} className="stage__rail">
         {OFFSETS.map((offset) => {
           const side = sides[(index + offset + total) % total];
@@ -232,7 +242,12 @@ export default function HomePage() {
           return (
             <div key={side.id} className="stage__slide" data-focused={isFocused} style={{ '--offset': offset, '--abs': Math.abs(offset) }}>
               {isFocused ? (
-                <FocusedSleeve side={side} onOpen={() => playTrack(side)} />
+                <>
+                  <FocusedSleeve side={side} onOpen={() => playTrack(side)} />
+                  <span className="stage__reflection" aria-hidden="true">
+                    <TrackSleeve track={side} imprint={false} />
+                  </span>
+                </>
               ) : (
                 <button type="button" className="stage__sleeve" tabIndex={-1} aria-hidden="true" data-cursor={offset > 0 ? 'Next' : 'Back'} onClick={() => go(offset)}>
                   <TrackSleeve track={side} />
@@ -253,7 +268,7 @@ export default function HomePage() {
 
       <div className="stage__count" aria-live="polite" aria-atomic="true">
         <span className="sr-only">Record </span>
-        <Swap swapKey={index} exitMs={450} as="span" className="stage__count-now">
+        <Swap swapKey={index} exitMs={500} as="span" className="stage__count-now roll">
           <span>{pad(index + 1)}</span>
         </Swap>
         <span className="stage__count-total">/ {pad(total)}</span>
