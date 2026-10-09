@@ -1,6 +1,5 @@
 node_modules
 .tools
-.claude
 _legacy
 dist
 .vite
